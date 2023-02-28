@@ -25,6 +25,13 @@ export const PlayerAnimations = {
     IDLE: "IDLE",
     WALK: "WALK",
     JUMP: "JUMP",
+    TAKING_DAMAGE: "TAKING_DAMAGE",
+    RUN_LEFT: "RUN_LEFT",
+    RUN_RIGHT: "RUN_RIGHT",
+    ATTACKING_LEFT: "ATTACKING_LEFT",
+    ATTACKING_RIGHT: "ATTACKING_RIGHT",
+    DYING: "DYING",
+    DEATH: "DEATH"
 } as const
 
 /**
