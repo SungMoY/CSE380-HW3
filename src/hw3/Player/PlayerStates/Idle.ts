@@ -6,7 +6,8 @@ import { HW3Controls } from "../../HW3Controls";
 export default class Idle extends PlayerState {
 
 	public onEnter(options: Record<string, any>): void {
-        this.owner.animation.play(PlayerAnimations.IDLE);
+        // if there already is ANY animation playing, queue it instead
+        this.owner.animation.queue(PlayerAnimations.IDLE, true);
 		this.parent.speed = this.parent.MIN_SPEED;
         this.parent.velocity.x = 0;
         this.parent.velocity.y = 0;
@@ -37,8 +38,7 @@ export default class Idle extends PlayerState {
             this.parent.velocity.y += this.gravity*deltaT;
             // Move the player
             this.owner.move(this.parent.velocity.scaled(deltaT));
-        }
-		
+        }		
 	}
 
 	public onExit(): Record<string, any> {

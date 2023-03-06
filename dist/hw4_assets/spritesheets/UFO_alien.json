@@ -12,89 +12,89 @@
 	"animations": [
 		{
 			"name": "IDLE",
-			"repeat": true,
+			"repeat": false,
 			"frames": [
 				{
 					"index": 0,
-					"duration": 8
+					"duration": 30
 				},
 				{
 					"index": 1,
-					"duration": 8
+					"duration": 30
 				},
 				{
 					"index": 2,
-					"duration": 8
+					"duration": 30
 				},
 				{
 					"index": 3,
-					"duration": 8
+					"duration": 30
 				},
 				{
 					"index": 4,
-					"duration": 8
+					"duration": 30
 				},
 				{
 					"index": 5,
-					"duration": 8
+					"duration": 30
 				},
 				{
 					"index": 6,
-					"duration": 8
+					"duration": 30
 				},
 				{
 					"index": 7,
-					"duration": 8
+					"duration": 30
 				}
 			]
 		},
 		{
 			"name": "RUN_LEFT",
-			"repeat": true,
+			"repeat": false,
 			"frames": [
 				{
 					"index": 11,
-					"duration": 8
+					"duration": 30
 				},
 				{
 					"index": 12,
-					"duration": 8
+					"duration": 30
 				},
 				{
 					"index": 13,
-					"duration": 8
+					"duration": 30
 				},
 				{
 					"index": 14,
-					"duration": 8
+					"duration": 30
 				}
 			]
 		},
 		{
 			"name": "RUN_RIGHT",
-			"repeat": true,
+			"repeat": false,
 			"frames": [
 				{
 					"index": 22,
-					"duration": 8
+					"duration": 30
 				},
 				{
 					"index": 23,
-					"duration": 8
+					"duration": 30
 				},
 				{
 					"index": 24,
-					"duration": 8
+					"duration": 30
 				},
 				{
 					"index": 25,
-					"duration": 8
+					"duration": 30
 				}
 			]
 		},
 		{
 			"name": "ATTACKING_LEFT",
-			"repeat": true,
+			"repeat": false,
 			"frames": [
 				{
 					"index": 33,
@@ -144,7 +144,7 @@
 		},
 		{
 			"name": "ATTACKING_RIGHT",
-			"repeat": true,
+			"repeat": false,
 			"frames": [
 				{
 					"index": 44,
@@ -194,71 +194,71 @@
 		},
 		{
 			"name": "TAKING_DAMAGE",
-			"repeat": true,
+			"repeat": false,
 			"frames": [
 				{
 					"index": 55,
-					"duration": 5
+					"duration": 30
 				},
 				{
 					"index": 56,
-					"duration": 5
+					"duration": 30
 				},
 				{
 					"index": 57,
-					"duration": 5
+					"duration": 30
 				},
 				{
 					"index": 58,
-					"duration": 5
+					"duration": 30
 				},
 				{
 					"index": 59,
-					"duration": 5
+					"duration": 30
 				}
 			]
 		},
 		{
 			"name": "DYING",
-			"repeat": true,
+			"repeat": false,
 			"frames": [
 				{
 					"index": 66,
-					"duration": 8
+					"duration": 30
 				},
 				{
 					"index": 67,
-					"duration": 8
+					"duration": 30
 				},
 				{
 					"index": 68,
-					"duration": 8
+					"duration": 30
 				},
 				{
 					"index": 69,
-					"duration": 8
+					"duration": 30
 				},
 				{
 					"index": 70,
-					"duration": 8
+					"duration": 30
 				}
 			]
 		},
 		{
 			"name": "DEAD",
-			"repeat": true,
+			"repeat": false,
 			"frames": [
 				{
 					"index": 77,
-					"duration": 10
+					"duration": 30
 				},
 				{
 					"index": 78,
-					"duration": 10
+					"duration": 30
 				},
 				{
 					"index": 79,
-					"duration": 10
+					"duration": 30
 				}
 			]
 		}

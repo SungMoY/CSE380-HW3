@@ -6,8 +6,13 @@ import PlayerState from "./PlayerState";
 export default class Walk extends PlayerState {
 
 	onEnter(options: Record<string, any>): void {
-		this.parent.speed = this.parent.MIN_SPEED;
-        this.owner.animation.playIfNotAlready(PlayerAnimations.WALK);
+        // based on velocity, play run_left or run_right
+        this.parent.speed = this.parent.MIN_SPEED;
+        if (this.parent.velocity.x < 0) {
+            this.owner.animation.playIfNotAlready(PlayerAnimations.RUN_LEFT, true);
+        } else {
+            this.owner.animation.playIfNotAlready(PlayerAnimations.RUN_RIGHT, true);
+        }
 	}
 
 	update(deltaT: number): void {
@@ -36,11 +41,11 @@ export default class Walk extends PlayerState {
             this.parent.velocity.x = dir.x * this.parent.speed
             this.owner.move(this.parent.velocity.scaled(deltaT));
         }
-
 	}
 
-	onExit(): Record<string, any> {
-		this.owner.animation.stop();
+	onExit(): Record<string, any> {		
+        this.owner.animation.stop();
+        this.owner.animation.playIfNotAlready(PlayerAnimations.IDLE, true);
 		return {};
 	}
 }

@@ -9,7 +9,11 @@ export default class Dead extends PlayerState {
 
     // Trigger the player's death animation when we enter the dead state
     public onEnter(options: Record<string, any>): void {
-        this.owner.tweens.play(PlayerTweens.DEATH);
+        console.log("ENTERING DEAD STATE")
+        this.owner.animation.playIfNotAlready("DYING", false)
+        this.owner.animation.queue("DEAD", true)
+        //this.owner.tweens.play(PlayerTweens.DEATH);
+
     }
 
     // Ignore all events from the rest of the game

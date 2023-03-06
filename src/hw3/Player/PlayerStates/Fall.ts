@@ -1,5 +1,5 @@
 import MathUtils from "../../../Wolfie2D/Utils/MathUtils";
-import { PlayerStates } from "../PlayerController";
+import { PlayerAnimations, PlayerStates } from "../PlayerController";
 import PlayerState from "./PlayerState";
 
 export default class Fall extends PlayerState {
@@ -12,9 +12,11 @@ export default class Fall extends PlayerState {
     update(deltaT: number): void {
 
         // If the player hits the ground, start idling and check if we should take damage
+        // play taking damage animation before entering idle state
         if (this.owner.onGround) {
             this.parent.health -= Math.floor(this.parent.velocity.y / 200);
-            this.finished(PlayerStates.IDLE);
+            this.owner.animation.play(PlayerAnimations.TAKING_DAMAGE, false);
+            this.finished(PlayerStates.IDLE); 
         } 
         // Otherwise, keep moving
         else {
@@ -27,10 +29,10 @@ export default class Fall extends PlayerState {
             // Move the player
             this.owner.move(this.parent.velocity.scaled(deltaT));
         }
-
     }
 
     onExit(): Record<string, any> {
+        this.owner.animation.queue(PlayerAnimations.IDLE, true);
         return {};
     }
 }

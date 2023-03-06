@@ -74,6 +74,8 @@ export default class PlayerController extends StateMachineAI {
     // protected cannon: Sprite;
     protected weapon: PlayerWeapon;
 
+    protected isDead: boolean;
+
     
     public initializeAI(owner: HW3AnimatedSprite, options: Record<string, any>){
         this.owner = owner;
@@ -84,8 +86,10 @@ export default class PlayerController extends StateMachineAI {
         this.speed = 400;
         this.velocity = Vec2.ZERO;
 
-        this.health = 5
+        this.health = 5;
         this.maxHealth = 5;
+
+        this.isDead = false;
 
         // Add the different states the player can be in to the PlayerController 
 		this.addState(PlayerStates.IDLE, new Idle(this, this.owner));
@@ -119,6 +123,23 @@ export default class PlayerController extends StateMachineAI {
         if (Input.isPressed(HW3Controls.ATTACK) && !this.weapon.isSystemRunning()) {
             // Start the particle system at the player's current position
             this.weapon.startSystem(500, 0, this.owner.position);
+            // get direction and play attacking animation
+            let direction = this.faceDir;
+            if (direction.x < 0) {
+                this.owner.animation.play(PlayerAnimations.ATTACKING_LEFT);
+                // return to idle
+                this.owner.animation.queue(PlayerAnimations.IDLE, true);
+            }
+            else {
+                this.owner.animation.play(PlayerAnimations.ATTACKING_RIGHT);
+                this.owner.animation.queue(PlayerAnimations.IDLE, true);
+            }
+        }
+
+        // if the player is dead, enter the dead state
+        if (this.health <= 0 && !this.isDead) {
+            this.isDead = true;
+            this.changeState(PlayerStates.DEAD);
         }
 
 	}
