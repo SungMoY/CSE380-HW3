@@ -1,4 +1,6 @@
 import GameEvent from "../../../Wolfie2D/Events/GameEvent";
+import { GameEventType } from "../../../Wolfie2D/Events/GameEventType";
+import { HW3Events } from "../../HW3Events";
 import { PlayerTweens } from "../PlayerController";
 import PlayerState from "./PlayerState";
 
@@ -9,9 +11,14 @@ export default class Dead extends PlayerState {
 
     // Trigger the player's death animation when we enter the dead state
     public onEnter(options: Record<string, any>): void {
-        console.log("ENTERING DEAD STATE")
         this.owner.animation.playIfNotAlready("DYING", false)
-        this.owner.animation.queue("DEAD", true)
+        // play dying.mp3
+        // Get the dying audio key for the player
+        let dyingAudio = this.owner.getScene().getDyingAudioKey();
+        // Play the dying sound for the player
+        this.emitter.fireEvent(GameEventType.PLAY_SOUND, {key: dyingAudio, loop: false, holdReference: false});
+
+        this.owner.animation.queue("DEAD", false, HW3Events.PLAYER_DEAD)
         //this.owner.tweens.play(PlayerTweens.DEATH);
 
     }

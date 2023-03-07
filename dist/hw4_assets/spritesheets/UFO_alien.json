@@ -224,23 +224,23 @@
 			"frames": [
 				{
 					"index": 66,
-					"duration": 30
+					"duration": 12
 				},
 				{
 					"index": 67,
-					"duration": 30
+					"duration": 12
 				},
 				{
 					"index": 68,
-					"duration": 30
+					"duration": 12
 				},
 				{
 					"index": 69,
-					"duration": 30
+					"duration": 12
 				},
 				{
 					"index": 70,
-					"duration": 30
+					"duration": 12
 				}
 			]
 		},
@@ -250,15 +250,15 @@
 			"frames": [
 				{
 					"index": 77,
-					"duration": 30
+					"duration": 20
 				},
 				{
 					"index": 78,
-					"duration": 30
+					"duration": 20
 				},
 				{
 					"index": 79,
-					"duration": 30
+					"duration": 20
 				}
 			]
 		}
