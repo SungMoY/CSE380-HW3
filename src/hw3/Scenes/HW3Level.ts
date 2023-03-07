@@ -412,6 +412,17 @@ export default abstract class HW3Level extends Scene {
         this.player.addPhysics(new AABB(this.player.position.clone(), this.player.boundary.getHalfSize().clone()));
 
         // TODO - give the player their flip tween
+        // this should rotate the sprite 360 degrees over 500 ms
+        this.player.tweens.add(PlayerTweens.FLIP, {
+            startDelay: 0,
+            duration: 500,
+            effects: [{
+                property: "rotation",
+                start: 0,
+                end: Math.PI * 2,
+                ease: EaseFunctionType.IN_OUT_QUAD
+                }]
+            });
 
         // Give the player a death animation
         this.player.tweens.add(PlayerTweens.DEATH, {
