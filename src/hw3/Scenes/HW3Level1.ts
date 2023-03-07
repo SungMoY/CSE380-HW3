@@ -13,7 +13,7 @@ export default class Level1 extends HW3Level {
 
     public static readonly PLAYER_SPAWN = new Vec2(32, 32);
     public static readonly PLAYER_SPRITE_KEY = "PLAYER_SPRITE_KEY";
-    // CHANGED TO LOAD UFO
+    // CHANGED TO LOAD CUSTOM CHARACTER
     // public static readonly PLAYER_SPRITE_PATH = "hw4_assets/spritesheets/Hero.json";
     public static readonly PLAYER_SPRITE_PATH = "hw4_assets/spritesheets/UFO_alien.json";
 
@@ -85,7 +85,13 @@ export default class Level1 extends HW3Level {
      * Unload resources for level 1
      */
     public unloadScene(): void {
-        // TODO decide which resources to keep/cull 
+        // TODO decide which resources to keep/cull
+        // By default, resouceManager unloads everything, so just keep what is same for all levels
+        this.load.keepSpritesheet(this.playerSpriteKey);
+        this.load.keepAudio(this.jumpAudioKey);
+        this.load.keepAudio(this.tileDestroyedAudioKey);
+        this.load.keepAudio(this.dyingAudioKey);
+
     }
 
     public startScene(): void {
