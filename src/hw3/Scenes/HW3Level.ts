@@ -96,6 +96,18 @@ export default abstract class HW3Level extends Scene {
     public constructor(viewport: Viewport, sceneManager: SceneManager, renderingManager: RenderingManager, options: Record<string, any>) {
         super(viewport, sceneManager, renderingManager, {...options, physics: {
             // TODO configure the collision groups and collision map
+            groupNames: [
+                HW3PhysicsGroups.GROUND,
+                HW3PhysicsGroups.PLAYER,
+                HW3PhysicsGroups.PLAYER_WEAPON,
+                HW3PhysicsGroups.DESTRUCTABLE
+            ],
+            collisions: [
+                [0, 1, 1, 0],
+                [1, 0, 0, 1],
+                [1, 0, 0, 1],
+                [0, 1, 1, 0]
+            ]
          }});
         this.add = new HW3FactoryManager(this, this.tilemaps);
     }
@@ -165,7 +177,8 @@ export default abstract class HW3Level extends Scene {
             }
             // When the level ends, change the scene to the next level
             case HW3Events.LEVEL_END: {
-                this.sceneManager.changeToScene(this.nextLevel);
+                this.emitter.fireEvent(GameEventType.STOP_SOUND, {key: this.levelMusicKey, loop: true, holdReference: true});
+                this.sceneManager.changeToScene(this.nextLevel, {}, this.sceneOptions.physics);
                 break;
             }
             case HW3Events.HEALTH_CHANGE: {
@@ -174,6 +187,12 @@ export default abstract class HW3Level extends Scene {
             }
             case HW3Events.PLAYER_DEAD: {
                 this.sceneManager.changeToScene(MainMenu);
+                break;
+            }
+            case HW3Events.DESTROY_TILE: {
+                // handle figuring out which tile to destroy
+                // use handleParticleHit and particleHitTile
+                this.handleParticleHit(event.data.get("node"));
                 break;
             }
             // Default: Throw an error! No unhandled events allowed.
@@ -209,8 +228,13 @@ export default abstract class HW3Level extends Scene {
                 for(let row = minIndex.y; row <= maxIndex.y; row++){
                     // If the tile is collideable -> check if this particle is colliding with the tile
                     if(tilemap.isTileCollidable(col, row) && this.particleHitTile(tilemap, particle, col, row)){
-                        this.emitter.fireEvent(GameEventType.PLAY_SOUND, { key: this.tileDestroyedAudioKey, loop: false, holdReference: false });
                         // TODO Destroy the tile
+                        let rowCol = new Vec2(col, row);
+                        if (tilemap.getTileAtRowCol(rowCol) !== 0) {
+                            tilemap.setTileAtRowCol(rowCol, 0);
+                            this.emitter.fireEvent(GameEventType.PLAY_SOUND, { key: this.tileDestroyedAudioKey, loop: false, holdReference: false });
+
+                        }
                     }
                 }
             }
@@ -228,7 +252,12 @@ export default abstract class HW3Level extends Scene {
      */
     protected particleHitTile(tilemap: OrthogonalTilemap, particle: Particle, col: number, row: number): boolean {
         // TODO detect whether a particle hit a tile
-        return;
+        // This is mildly redundant
+        let currTile = tilemap.getTileAtRowCol(new Vec2(col, row));
+        let particlePos = particle.position;
+        let particleSize = particle.size;
+
+        return true;
     }
 
     /**
@@ -292,6 +321,7 @@ export default abstract class HW3Level extends Scene {
         this.walls.addPhysics();
         // Add physics to the destructible layer of the tilemap
         this.destructable.addPhysics();
+        this.destructable.setTrigger(HW3PhysicsGroups.PLAYER_WEAPON, HW3Events.DESTROY_TILE, null);
     }
     /**
      * Handles all subscriptions to events
@@ -302,6 +332,7 @@ export default abstract class HW3Level extends Scene {
         this.receiver.subscribe(HW3Events.LEVEL_END);
         this.receiver.subscribe(HW3Events.HEALTH_CHANGE);
         this.receiver.subscribe(HW3Events.PLAYER_DEAD);
+        this.receiver.subscribe(HW3Events.DESTROY_TILE);
     }
     /**
      * Adds in any necessary UI to the game
@@ -341,7 +372,7 @@ export default abstract class HW3Level extends Scene {
                 {
                     property: TweenableProperties.posX,
                     start: -300,
-                    end: 300,
+                    end: 150,
                     ease: EaseFunctionType.OUT_SINE
                 }
             ]
@@ -410,6 +441,8 @@ export default abstract class HW3Level extends Scene {
         
         // Give the player physics
         this.player.addPhysics(new AABB(this.player.position.clone(), this.player.boundary.getHalfSize().clone()));
+        // Add player to player physics group
+        this.player.setGroup(HW3PhysicsGroups.PLAYER);
 
         // TODO - give the player their flip tween
         // this should rotate the sprite 360 degrees over 500 ms
@@ -472,6 +505,7 @@ export default abstract class HW3Level extends Scene {
         
         this.levelEndArea = <Rect>this.add.graphic(GraphicType.RECT, HW3Layers.PRIMARY, { position: this.levelEndPosition, size: this.levelEndHalfSize });
         this.levelEndArea.addPhysics(undefined, undefined, false, true);
+        this.levelEndArea.setGroup(HW3PhysicsGroups.GROUND)
         this.levelEndArea.setTrigger(HW3PhysicsGroups.PLAYER, HW3Events.PLAYER_ENTERED_LEVEL_END, null);
         this.levelEndArea.color = new Color(255, 0, 255, .20);
         

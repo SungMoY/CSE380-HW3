@@ -5,6 +5,7 @@ import Timer from "../../Wolfie2D/Timing/Timer";
 import Color from "../../Wolfie2D/Utils/Color";
 import { EaseFunctionType } from "../../Wolfie2D/Utils/EaseFunctions";
 import RandUtils from "../../Wolfie2D/Utils/RandUtils";
+import { HW3PhysicsGroups } from "../HW3PhysicsGroups";
 
  
 
@@ -54,7 +55,6 @@ export default class PlayerWeapon extends ParticleSystem {
      * @param particle the particle to give the animation to
      */
     public setParticleAnimation(particle: Particle) {
-        console.log("FACEDIR: " + this.faceDir)
         // Give the particle a random velocity.
         // particle.vel = RandUtils.randVec(100, 200, -32, 32);
 
@@ -64,6 +64,9 @@ export default class PlayerWeapon extends ParticleSystem {
                                         this.faceDir.y/4, 
                                         this.faceDir.y*4
         );
+
+        // set each particle's group to physics group
+        particle.setGroup(HW3PhysicsGroups.PLAYER_WEAPON);
 
         particle.color = Color.RED;
 
